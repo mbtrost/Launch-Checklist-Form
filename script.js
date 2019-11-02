@@ -1,4 +1,5 @@
 // Write your JavaScript code here!
+
 window.addEventListener("load", function() {
   let form = document.querySelector("form");
   form.addEventListener("submit", function(event) {
@@ -8,12 +9,20 @@ window.addEventListener("load", function() {
     let cargoMassInput = document.querySelector("input[name=cargoMass]");
     if (pilotNameInput.value === "" || copilotNameInput.value === "" || fuelLevelInput.value === "" || cargoMassInput.value === ""){
       alert("All fields are required!");
+      event.preventDefault();
       document.querySelector("faultyItems").style.visibility = "hidden";
     }
     if (!isNaN(pilotNameInput.value) || !isNaN(copilotNameInput.value) || isNaN(fuelLevelInput.value) || isNaN(cargoMassInput.value)){
       alert("Information invalid");
+      event.preventDefault();
       document.querySelector("faultyItems").style.visibility = "hidden";
     }
+
+    document.getElementById("pilotStatus").innerHTML = `Pilot ${pilotNameInput.value} is ready for launch.`;
+    document.getElementById("copilotStatus").innerHTML = `Co-Pilot ${copilotNameInput.value} is ready for launch.`;
+    document.getElementById("fuelStatus").innerHTML = "Fuel level high enough for launch";
+    document.getElementById("cargoStatus").innerHTML = "Cargo mass low enough for launch";
+
     if (fuelLevelInput.value < 10000){
       document.getElementById("faultyItems").style.visibility = "visible";
       document.getElementById("launchStatus").style.color="red"
@@ -36,7 +45,7 @@ window.addEventListener("load", function() {
 
   fetch("https://handlers.education.launchcode.org/static/planets.json").then(function(response) {
     response.json().then(function(json) {
-      let num = Math.floor(Math.random()*(json.length+1));
+      let num = Math.floor(Math.random()*(json.length));
       let div = document.getElementById("missionTarget");
       div.innerHTML = `
         <h2>Mission Destination</h2>
@@ -53,15 +62,14 @@ window.addEventListener("load", function() {
   });
 });
 
-
-/* This block of code shows how to format the HTML once you fetch some planetary JSON!
-<h2>Mission Destination</h2>
-<ol>
-   <li>Name: ${}</li>
-   <li>Diameter: ${}</li>
-   <li>Star: ${}</li>
-   <li>Distance from Earth: ${}</li>
-   <li>Number of Moons: ${}</li>
-</ol>
-<img src="${}">
-*/
+// /* This block of code shows how to format the HTML once you fetch some planetary JSON!
+// <h2>Mission Destination</h2>
+// <ol>
+//    <li>Name: ${}</li>
+//    <li>Diameter: ${}</li>
+//    <li>Star: ${}</li>
+//    <li>Distance from Earth: ${}</li>
+//    <li>Number of Moons: ${}</li>
+// </ol>
+// <img src="${}">
+// */
